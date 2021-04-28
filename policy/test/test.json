@@ -1,0 +1,1737 @@
+{
+    "result": {
+        "id": "policy-1",
+        "raw": "package tf.analysis\n\nimport input as tf\n\nvariables_allowed[msg] {\n    lookup := data.parameters[_].self\n    policy := data.parameters[lookup].allowed\n    value := tf.variables[lookup].value\n    policy[i] == value \n\tmsg := lookup\n \n}\nvariables_denied[msg] {\n    lookup := data.parameters[_].self\n    policy := data.parameters[lookup].allowed\n    value := tf.variables[lookup].value\n    policy[i] != value \n\tmsg := lookup\n \n}\n\nvariable_failures[msg] {\n    result := variables_denied - variables_allowed\n    msg := result\n}\n\neval_character_length_pass[msg] {  \n    lookup := data.parameters[_].self\n    policy := data.parameters[lookup].nchar\n    value := tf.variables[lookup].value\n    num_char = count(value)\n    num_char \u003c= policy\n    msg := lookup\n}\n\neval_character_length_fail[msg] {  \n    lookup := data.parameters[_].self\n    policy := data.parameters[lookup].nchar\n    value := tf.variables[lookup].value\n    num_char = count(value)\n    num_char \u003e= policy\n    msg := lookup\n}\n\neval_character_length_diff[msg] {\n    result := eval_character_length_fail - eval_character_length_pass\n    msg := {\"failed\": result}\n}\n\n#WIP evaluate which variables are missing policy\n\n\n#end of WIP \nchange_protected_resources_disallowed[msg] {\n    value := tf.resource_changes[_].type\n    policy := data.parameters.change_protected_resources.disallowed[_]\n    policy == value\n    msg := value\n}\nchange_protected_resources_allowed[msg] {\n    value := tf.resource_changes[_].type\n    policy := data.parameters.change_protected_resources.allowed[_]\n    policy != value\n    msg := value\n}\n\n#WIP for Root Modules and Child Modules\nprotected_resources_disallowed[msg] {\n    value := tf.resource_changes[_].type\n    #to be changed\n    policy := data.parameters.protected_resources.disallowed[_]\n    policy == value\n    msg := value\n}\n\nprotected_resources_allowed[msg] {\n    value := tf.resource_changes[_].type\n    #to be changed\n    policy := data.parameters.protected_resources.allowed[_]\n    policy != value\n    msg := value\n}\nresource_types = {\"aws_autoscaling_group\", \"aws_instance\", \"aws_iam_policy\"}\n\n#functions\nresources[resource_type] = all {\n    some resource_type\n    resource_types[resource_type]\n    all := [name |\n        name:= tf.resource_changes[_]\n        name.type == resource_type\n    ]\n}",
+        "ast": {
+            "package": {
+                "path": [{
+                        "type": "var",
+                        "value": "data"
+                    },
+                    {
+                        "type": "string",
+                        "value": "tf"
+                    },
+                    {
+                        "type": "string",
+                        "value": "analysis"
+                    }
+                ]
+            },
+            "rules": [{
+                    "head": {
+                        "name": "variables_allowed",
+                        "key": {
+                            "type": "var",
+                            "value": "__local3__"
+                        }
+                    },
+                    "body": [{
+                            "index": 0,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local0__"
+                                },
+                                {
+                                    "type": "ref",
+                                    "value": [{
+                                            "type": "var",
+                                            "value": "data"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "parameters"
+                                        },
+                                        {
+                                            "type": "var",
+                                            "value": "$0"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "self"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "index": 1,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local1__"
+                                },
+                                {
+                                    "type": "ref",
+                                    "value": [{
+                                            "type": "var",
+                                            "value": "data"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "parameters"
+                                        },
+                                        {
+                                            "type": "var",
+                                            "value": "__local0__"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "allowed"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "index": 2,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local2__"
+                                },
+                                {
+                                    "type": "ref",
+                                    "value": [{
+                                            "type": "var",
+                                            "value": "input"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "variables"
+                                        },
+                                        {
+                                            "type": "var",
+                                            "value": "__local0__"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "value"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "index": 3,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "ref",
+                                    "value": [{
+                                            "type": "var",
+                                            "value": "__local1__"
+                                        },
+                                        {
+                                            "type": "var",
+                                            "value": "i"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local2__"
+                                }
+                            ]
+                        },
+                        {
+                            "index": 4,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local3__"
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local0__"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "head": {
+                        "name": "variables_denied",
+                        "key": {
+                            "type": "var",
+                            "value": "__local7__"
+                        }
+                    },
+                    "body": [{
+                            "index": 0,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local4__"
+                                },
+                                {
+                                    "type": "ref",
+                                    "value": [{
+                                            "type": "var",
+                                            "value": "data"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "parameters"
+                                        },
+                                        {
+                                            "type": "var",
+                                            "value": "$1"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "self"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "index": 1,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local5__"
+                                },
+                                {
+                                    "type": "ref",
+                                    "value": [{
+                                            "type": "var",
+                                            "value": "data"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "parameters"
+                                        },
+                                        {
+                                            "type": "var",
+                                            "value": "__local4__"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "allowed"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "index": 2,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local6__"
+                                },
+                                {
+                                    "type": "ref",
+                                    "value": [{
+                                            "type": "var",
+                                            "value": "input"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "variables"
+                                        },
+                                        {
+                                            "type": "var",
+                                            "value": "__local4__"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "value"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "generated": true,
+                            "index": 3,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local39__"
+                                },
+                                {
+                                    "type": "ref",
+                                    "value": [{
+                                            "type": "var",
+                                            "value": "__local5__"
+                                        },
+                                        {
+                                            "type": "var",
+                                            "value": "i"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "index": 4,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "neq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local39__"
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local6__"
+                                }
+                            ]
+                        },
+                        {
+                            "index": 5,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local7__"
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local4__"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "head": {
+                        "name": "variable_failures",
+                        "key": {
+                            "type": "var",
+                            "value": "__local9__"
+                        }
+                    },
+                    "body": [{
+                            "generated": true,
+                            "index": 0,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local40__"
+                                },
+                                {
+                                    "type": "ref",
+                                    "value": [{
+                                            "type": "var",
+                                            "value": "data"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "tf"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "analysis"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "variables_denied"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "generated": true,
+                            "index": 1,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local41__"
+                                },
+                                {
+                                    "type": "ref",
+                                    "value": [{
+                                            "type": "var",
+                                            "value": "data"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "tf"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "analysis"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "variables_allowed"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "generated": true,
+                            "index": 2,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "minus"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local40__"
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local41__"
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local35__"
+                                }
+                            ]
+                        },
+                        {
+                            "index": 3,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local8__"
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local35__"
+                                }
+                            ]
+                        },
+                        {
+                            "index": 4,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local9__"
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local8__"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "head": {
+                        "name": "eval_character_length_pass",
+                        "key": {
+                            "type": "var",
+                            "value": "__local13__"
+                        }
+                    },
+                    "body": [{
+                            "index": 0,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local10__"
+                                },
+                                {
+                                    "type": "ref",
+                                    "value": [{
+                                            "type": "var",
+                                            "value": "data"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "parameters"
+                                        },
+                                        {
+                                            "type": "var",
+                                            "value": "$2"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "self"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "index": 1,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local11__"
+                                },
+                                {
+                                    "type": "ref",
+                                    "value": [{
+                                            "type": "var",
+                                            "value": "data"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "parameters"
+                                        },
+                                        {
+                                            "type": "var",
+                                            "value": "__local10__"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "nchar"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "index": 2,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local12__"
+                                },
+                                {
+                                    "type": "ref",
+                                    "value": [{
+                                            "type": "var",
+                                            "value": "input"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "variables"
+                                        },
+                                        {
+                                            "type": "var",
+                                            "value": "__local10__"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "value"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "generated": true,
+                            "index": 3,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "count"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local12__"
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local36__"
+                                }
+                            ]
+                        },
+                        {
+                            "index": 4,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "num_char"
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local36__"
+                                }
+                            ]
+                        },
+                        {
+                            "index": 5,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "lte"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "num_char"
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local11__"
+                                }
+                            ]
+                        },
+                        {
+                            "index": 6,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local13__"
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local10__"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "head": {
+                        "name": "eval_character_length_fail",
+                        "key": {
+                            "type": "var",
+                            "value": "__local17__"
+                        }
+                    },
+                    "body": [{
+                            "index": 0,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local14__"
+                                },
+                                {
+                                    "type": "ref",
+                                    "value": [{
+                                            "type": "var",
+                                            "value": "data"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "parameters"
+                                        },
+                                        {
+                                            "type": "var",
+                                            "value": "$3"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "self"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "index": 1,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local15__"
+                                },
+                                {
+                                    "type": "ref",
+                                    "value": [{
+                                            "type": "var",
+                                            "value": "data"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "parameters"
+                                        },
+                                        {
+                                            "type": "var",
+                                            "value": "__local14__"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "nchar"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "index": 2,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local16__"
+                                },
+                                {
+                                    "type": "ref",
+                                    "value": [{
+                                            "type": "var",
+                                            "value": "input"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "variables"
+                                        },
+                                        {
+                                            "type": "var",
+                                            "value": "__local14__"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "value"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "generated": true,
+                            "index": 3,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "count"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local16__"
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local37__"
+                                }
+                            ]
+                        },
+                        {
+                            "index": 4,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "num_char"
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local37__"
+                                }
+                            ]
+                        },
+                        {
+                            "index": 5,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "gte"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "num_char"
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local15__"
+                                }
+                            ]
+                        },
+                        {
+                            "index": 6,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local17__"
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local14__"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "head": {
+                        "name": "eval_character_length_diff",
+                        "key": {
+                            "type": "var",
+                            "value": "__local19__"
+                        }
+                    },
+                    "body": [{
+                            "generated": true,
+                            "index": 0,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local42__"
+                                },
+                                {
+                                    "type": "ref",
+                                    "value": [{
+                                            "type": "var",
+                                            "value": "data"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "tf"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "analysis"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "eval_character_length_fail"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "generated": true,
+                            "index": 1,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local43__"
+                                },
+                                {
+                                    "type": "ref",
+                                    "value": [{
+                                            "type": "var",
+                                            "value": "data"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "tf"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "analysis"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "eval_character_length_pass"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "generated": true,
+                            "index": 2,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "minus"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local42__"
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local43__"
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local38__"
+                                }
+                            ]
+                        },
+                        {
+                            "index": 3,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local18__"
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local38__"
+                                }
+                            ]
+                        },
+                        {
+                            "index": 4,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local19__"
+                                },
+                                {
+                                    "type": "object",
+                                    "value": [
+                                        [{
+                                                "type": "string",
+                                                "value": "failed"
+                                            },
+                                            {
+                                                "type": "var",
+                                                "value": "__local18__"
+                                            }
+                                        ]
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "head": {
+                        "name": "change_protected_resources_disallowed",
+                        "key": {
+                            "type": "var",
+                            "value": "__local22__"
+                        }
+                    },
+                    "body": [{
+                            "index": 0,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local20__"
+                                },
+                                {
+                                    "type": "ref",
+                                    "value": [{
+                                            "type": "var",
+                                            "value": "input"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "resource_changes"
+                                        },
+                                        {
+                                            "type": "var",
+                                            "value": "$4"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "type"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "index": 1,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local21__"
+                                },
+                                {
+                                    "type": "ref",
+                                    "value": [{
+                                            "type": "var",
+                                            "value": "data"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "parameters"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "change_protected_resources"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "disallowed"
+                                        },
+                                        {
+                                            "type": "var",
+                                            "value": "$5"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "index": 2,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local21__"
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local20__"
+                                }
+                            ]
+                        },
+                        {
+                            "index": 3,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local22__"
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local20__"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "head": {
+                        "name": "change_protected_resources_allowed",
+                        "key": {
+                            "type": "var",
+                            "value": "__local25__"
+                        }
+                    },
+                    "body": [{
+                            "index": 0,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local23__"
+                                },
+                                {
+                                    "type": "ref",
+                                    "value": [{
+                                            "type": "var",
+                                            "value": "input"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "resource_changes"
+                                        },
+                                        {
+                                            "type": "var",
+                                            "value": "$6"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "type"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "index": 1,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local24__"
+                                },
+                                {
+                                    "type": "ref",
+                                    "value": [{
+                                            "type": "var",
+                                            "value": "data"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "parameters"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "change_protected_resources"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "allowed"
+                                        },
+                                        {
+                                            "type": "var",
+                                            "value": "$7"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "index": 2,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "neq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local24__"
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local23__"
+                                }
+                            ]
+                        },
+                        {
+                            "index": 3,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local25__"
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local23__"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "head": {
+                        "name": "protected_resources_disallowed",
+                        "key": {
+                            "type": "var",
+                            "value": "__local28__"
+                        }
+                    },
+                    "body": [{
+                            "index": 0,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local26__"
+                                },
+                                {
+                                    "type": "ref",
+                                    "value": [{
+                                            "type": "var",
+                                            "value": "input"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "resource_changes"
+                                        },
+                                        {
+                                            "type": "var",
+                                            "value": "$8"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "type"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "index": 1,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local27__"
+                                },
+                                {
+                                    "type": "ref",
+                                    "value": [{
+                                            "type": "var",
+                                            "value": "data"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "parameters"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "protected_resources"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "disallowed"
+                                        },
+                                        {
+                                            "type": "var",
+                                            "value": "$9"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "index": 2,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local27__"
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local26__"
+                                }
+                            ]
+                        },
+                        {
+                            "index": 3,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local28__"
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local26__"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "head": {
+                        "name": "protected_resources_allowed",
+                        "key": {
+                            "type": "var",
+                            "value": "__local31__"
+                        }
+                    },
+                    "body": [{
+                            "index": 0,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local29__"
+                                },
+                                {
+                                    "type": "ref",
+                                    "value": [{
+                                            "type": "var",
+                                            "value": "input"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "resource_changes"
+                                        },
+                                        {
+                                            "type": "var",
+                                            "value": "$10"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "type"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "index": 1,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local30__"
+                                },
+                                {
+                                    "type": "ref",
+                                    "value": [{
+                                            "type": "var",
+                                            "value": "data"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "parameters"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "protected_resources"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "value": "allowed"
+                                        },
+                                        {
+                                            "type": "var",
+                                            "value": "$11"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "index": 2,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "neq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local30__"
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local29__"
+                                }
+                            ]
+                        },
+                        {
+                            "index": 3,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local31__"
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local29__"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "head": {
+                        "name": "resource_types",
+                        "value": {
+                            "type": "set",
+                            "value": [{
+                                    "type": "string",
+                                    "value": "aws_autoscaling_group"
+                                },
+                                {
+                                    "type": "string",
+                                    "value": "aws_instance"
+                                },
+                                {
+                                    "type": "string",
+                                    "value": "aws_iam_policy"
+                                }
+                            ]
+                        }
+                    },
+                    "body": [{
+                        "index": 0,
+                        "terms": {
+                            "type": "boolean",
+                            "value": true
+                        }
+                    }]
+                },
+                {
+                    "head": {
+                        "name": "resources",
+                        "key": {
+                            "type": "var",
+                            "value": "__local32__"
+                        },
+                        "value": {
+                            "type": "var",
+                            "value": "__local34__"
+                        }
+                    },
+                    "body": [{
+                            "index": 0,
+                            "terms": {
+                                "type": "ref",
+                                "value": [{
+                                        "type": "var",
+                                        "value": "data"
+                                    },
+                                    {
+                                        "type": "string",
+                                        "value": "tf"
+                                    },
+                                    {
+                                        "type": "string",
+                                        "value": "analysis"
+                                    },
+                                    {
+                                        "type": "string",
+                                        "value": "resource_types"
+                                    },
+                                    {
+                                        "type": "var",
+                                        "value": "__local32__"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "index": 1,
+                            "terms": [{
+                                    "type": "ref",
+                                    "value": [{
+                                        "type": "var",
+                                        "value": "eq"
+                                    }]
+                                },
+                                {
+                                    "type": "var",
+                                    "value": "__local34__"
+                                },
+                                {
+                                    "type": "arraycomprehension",
+                                    "value": {
+                                        "term": {
+                                            "type": "var",
+                                            "value": "__local33__"
+                                        },
+                                        "body": [{
+                                                "index": 0,
+                                                "terms": [{
+                                                        "type": "ref",
+                                                        "value": [{
+                                                            "type": "var",
+                                                            "value": "eq"
+                                                        }]
+                                                    },
+                                                    {
+                                                        "type": "var",
+                                                        "value": "__local33__"
+                                                    },
+                                                    {
+                                                        "type": "ref",
+                                                        "value": [{
+                                                                "type": "var",
+                                                                "value": "input"
+                                                            },
+                                                            {
+                                                                "type": "string",
+                                                                "value": "resource_changes"
+                                                            },
+                                                            {
+                                                                "type": "var",
+                                                                "value": "$12"
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "index": 1,
+                                                "terms": [{
+                                                        "type": "ref",
+                                                        "value": [{
+                                                            "type": "var",
+                                                            "value": "eq"
+                                                        }]
+                                                    },
+                                                    {
+                                                        "type": "ref",
+                                                        "value": [{
+                                                                "type": "var",
+                                                                "value": "__local33__"
+                                                            },
+                                                            {
+                                                                "type": "string",
+                                                                "value": "type"
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "type": "var",
+                                                        "value": "__local32__"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "comments": [{
+                    "Text": "V0lQIGV2YWx1YXRlIHdoaWNoIHZhcmlhYmxlcyBhcmUgbWlzc2luZyBwb2xpY3k=",
+                    "Location": {
+                        "file": "policy-1",
+                        "row": 50,
+                        "col": 1
+                    }
+                },
+                {
+                    "Text": "ZW5kIG9mIFdJUCA=",
+                    "Location": {
+                        "file": "policy-1",
+                        "row": 53,
+                        "col": 1
+                    }
+                },
+                {
+                    "Text": "V0lQIGZvciBSb290IE1vZHVsZXMgYW5kIENoaWxkIE1vZHVsZXM=",
+                    "Location": {
+                        "file": "policy-1",
+                        "row": 67,
+                        "col": 1
+                    }
+                },
+                {
+                    "Text": "dG8gYmUgY2hhbmdlZA==",
+                    "Location": {
+                        "file": "policy-1",
+                        "row": 70,
+                        "col": 5
+                    }
+                },
+                {
+                    "Text": "dG8gYmUgY2hhbmdlZA==",
+                    "Location": {
+                        "file": "policy-1",
+                        "row": 78,
+                        "col": 5
+                    }
+                },
+                {
+                    "Text": "ZnVuY3Rpb25z",
+                    "Location": {
+                        "file": "policy-1",
+                        "row": 85,
+                        "col": 1
+                    }
+                }
+            ]
+        }
+    }
+}

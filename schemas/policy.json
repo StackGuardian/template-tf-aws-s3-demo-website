@@ -1,0 +1,236 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+        "parameters": {
+            "type": "object",
+            "title": "Policy for aws-tf-s3 Template",
+            "properties": {
+                "bucket_region": {
+                    "title": "Bucket Region",
+                    "type": "object",
+                    "properties": {
+                        "self": {
+                            "title": "Variable Name in IaC Template",
+                            "type": "string",
+                            "default": "bucket_region",
+                            "readOnly": true
+                        },
+                        "allowed": {
+                            "title": "Allowed Values",
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "default": [],
+                            "uniqueItems": true
+                        },
+                        "disallowed": {
+                            "title": "Disallowed Values",
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "default": [],
+                            "readOnly": true,
+                            "uniqueItems": true
+                        }
+                    }
+                },
+                "s3_bucket_acl": {
+                    "title": "ACL for S3 Bucket",
+                    "type": "object",
+                    "properties": {
+                        "self": {
+                            "title": "Variable Name in IaC Template",
+                            "type": "string",
+                            "default": "s3_bucket_acl",
+                            "readOnly": true
+                        },
+                        "allowed": {
+                            "title": "Allowed Values",
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "default": [],
+                            "uniqueItems": true
+                        },
+                        "disallowed": {
+                            "title": "Disallowed Values",
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "default": [],
+                            "readOnly": true,
+                            "uniqueItems": true
+                        },
+                        "nchars": {
+                            "title": "Number of characters",
+                            "type": "integer"
+                        }
+                    }
+                },
+                "s3_bucket_force_destroy": {
+                    "title": "Force Destroy Bucket",
+                    "type": "object",
+                    "properties": {
+                        "self": {
+                            "title": "Variable Name in IaC Template",
+                            "type": "string",
+                            "default": "s3_bucket_force_destroy",
+                            "readOnly": true
+                        },
+                        "allowed": {
+                            "title": "Force Destroy Bucket",
+                            "type": "boolean",
+                            "default": false
+                        }
+                    }
+                },
+                "s3_bucket_block_public_acls": {
+                    "title": "Block Public ACLs",
+                    "type": "object",
+                    "properties": {
+                        "self": {
+                            "title": "Variable Name in IaC Template",
+                            "type": "string",
+                            "default": "s3_bucket_block_public_acls",
+                            "readOnly": true
+                        },
+                        "allowed": {
+                            "title": "Block Public ACLs",
+                            "type": "boolean",
+                            "default": false
+                        }
+                    }
+                },
+                "s3_bucket_block_public_policy": {
+                    "title": "Block Public Policy",
+                    "type": "object",
+                    "properties": {
+                        "self": {
+                            "title": "Variable Name in IaC Template",
+                            "type": "string",
+                            "default": "s3_bucket_block_public_policy",
+                            "readOnly": true
+                        },
+                        "allowed": {
+                            "title": "Block Public Policy",
+                            "type": "boolean",
+                            "default": false
+                        }
+                    }
+                },
+                "s3_bucket_ignore_public_acls": {
+                    "title": "Ignore Public Bucket ACLs",
+                    "type": "object",
+                    "properties": {
+                        "self": {
+                            "title": "Variable Name in IaC Template",
+                            "type": "string",
+                            "default": "s3_bucket_ignore_public_acls",
+                            "readOnly": true
+                        },
+                        "allowed": {
+                            "title": "Ignore Public Bucket ACLs",
+                            "type": "boolean",
+                            "default": false
+                        }
+                    }
+                },
+                "s3_bucket_restrict_public_buckets": {
+                    "title": "Restrict Public Buckets",
+                    "type": "object",
+                    "properties": {
+                        "self": {
+                            "title": "Variable Name in IaC Template",
+                            "type": "string",
+                            "default": "s3_bucket_restrict_public_buckets",
+                            "readOnly": true
+                        },
+                        "allowed": {
+                            "title": "Restrict Public Buckets",
+                            "type": "boolean",
+                            "default": false
+                        }
+                    }
+                },
+                "s3_bucket_tags": {
+                    "title": "Tags for S3 Bucket",
+                    "type": "object",
+                    "properties": {
+                        "self": {
+                            "title": "Variable Name in IaC Template",
+                            "type": "string",
+                            "default": "s3_bucket_tags",
+                            "readOnly": true
+                        },
+                        "allowed": {
+                            "title": "Allowed Values",
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "additionalProperties": {
+                                    "type": "string"
+                                }
+                            },
+                            "uniqueItems": true
+                        },
+                        "disallowed": {
+                            "title": "Disallowed Values",
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "default": [],
+                            "readOnly": true,
+                            "uniqueItems": true
+                        }
+                    }
+                },
+                "s3_bucket_versioning": {
+                    "title": "Versioning for S3 Bucket",
+                    "type": "object",
+                    "properties": {
+                        "self": {
+                            "title": "Variable Name in IaC Template",
+                            "type": "string",
+                            "default": "s3_bucket_versioning",
+                            "readOnly": true
+                        },
+                        "allowed": {
+                            "title": "Allowed Values",
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "enabled": {
+                                        "type": "string",
+                                        "default": "true"
+                                    },
+                                    "mfa_delete": {
+                                        "type": "string",
+                                        "default": "false"
+                                    }
+                                }
+                            },
+                            "uniqueItems": true
+                        },
+                        "disallowed": {
+                            "title": "Disallowed Values",
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "default": [],
+                            "readOnly": true,
+                            "uniqueItems": true
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

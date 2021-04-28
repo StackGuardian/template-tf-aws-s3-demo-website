@@ -1,0 +1,71 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+        "parameters": {
+            "title": "Terraform AWS S3 Static Demo Website",
+            "type": "object",
+            "properties": {
+                "bucket_region": {
+                    "title": "Bucket Region",
+                    "type": "string",
+                    "default": "eu-central-1"
+                },
+                "s3_bucket_acl": {
+                    "title": "ACL for S3 Bucket",
+                    "type": "string",
+                    "default": "public-read"
+                },
+                "s3_bucket_force_destroy": {
+                    "title": "Force Destroy Bucket",
+                    "type": "boolean",
+                    "default": true
+                },
+                "s3_bucket_block_public_acls": {
+                    "title": "Block Public ACLs",
+                    "type": "boolean",
+                    "default": false
+                },
+                "s3_bucket_block_public_policy": {
+                    "title": "Block Public Policy",
+                    "type": "boolean",
+                    "default": false
+                },
+                "s3_bucket_ignore_public_acls": {
+                    "title": "Ignore Public Bucket ACLs",
+                    "type": "boolean",
+                    "default": false
+                },
+                "s3_bucket_restrict_public_buckets": {
+                    "title": "Restrict Public Buckets",
+                    "type": "boolean",
+                    "default": false
+                },
+                "s3_bucket_tags": {
+                    "title": "Tags for S3 Bucket",
+                    "type": "object",
+                    "default": {
+                        "Owner": "TandLabs"
+                    },
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "s3_bucket_versioning": {
+                    "title": "Versioning for S3 Bucket",
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "string",
+                            "default": "true"
+                        },
+                        "mfa_delete": {
+                            "type": "string",
+                            "default": "false"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

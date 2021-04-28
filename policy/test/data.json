@@ -1,0 +1,55 @@
+{
+    "parameters": {
+        "s3_bucket_ignore_public_acls": {
+            "self": "s3_bucket_ignore_public_acls",
+            "allowed": false
+        },
+        "s3_bucket_block_public_acls": {
+            "self": "s3_bucket_block_public_acls",
+            "allowed": false
+        },
+        "iam_policy_actions": {
+            "disallowed": [],
+            "self": "iam_policy_actions",
+            "allowed": []
+        },
+        "s3_bucket_attach_policy": {
+            "self": "s3_bucket_attach_policy",
+            "allowed": true
+        },
+        "s3_bucket_restrict_public_buckets": {
+            "self": "s3_bucket_restrict_public_buckets",
+            "allowed": false
+        },
+        "s3_bucket_tags": {
+            "disallowed": [],
+            "self": "s3_bucket_tags"
+        },
+        "s3_bucket_acl": {
+            "disallowed": [],
+            "self": "s3_bucket_acl",
+            "allowed": []
+        },
+        "s3_bucket_versioning": {
+            "disallowed": [],
+            "self": "s3_bucket_versioning",
+            "allowed": [{
+                "enabled": "true",
+                "mfa_delete": "false"
+            }]
+        },
+        "s3_bucket_block_public_policy": {
+            "self": "s3_bucket_block_public_policy",
+            "allowed": false
+        },
+        "s3_bucket_force_destroy": {
+            "self": "s3_bucket_force_destroy",
+            "allowed": false
+        },
+        "cloudfront_log_bucket_grant": {
+            "disallowed": [],
+            "self": "cloudfront_log_bucket_grant",
+            "allowed": []
+        }
+    }
+}
