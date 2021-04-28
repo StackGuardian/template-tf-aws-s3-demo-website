@@ -4,7 +4,7 @@
     "properties": {
         "parameters": {
             "type": "object",
-            "title": "Policy for aws-tf-s3 Template",
+            "title": "Policy for template-tf-aws-s3-demo-website Template",
             "properties": {
                 "bucket_region": {
                     "title": "Bucket Region",
