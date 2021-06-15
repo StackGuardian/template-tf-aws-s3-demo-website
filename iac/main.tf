@@ -31,6 +31,6 @@ module "s3_bucket" {
 
 resource "null_resource" "remove_and_upload_to_s3" {
   provisioner "local-exec" {
-    command = "aws s3 sync ${path.module}/content s3://${module.s3_bucket.s3_bucket_id} --acl public-read"
+    command = "aws s3 sync ${path.module}/content s3://${module.s3_bucket.s3_bucket_id} --acl public-read --region eu-central-1"
   }
 }
