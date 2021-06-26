@@ -23,7 +23,7 @@ variables_denied[msg] {
 
 variable_failures[msg] {
     result := variables_denied - variables_allowed
-    msg := result[0]
+    msg := result
 }
 
 # proto[msg] {
