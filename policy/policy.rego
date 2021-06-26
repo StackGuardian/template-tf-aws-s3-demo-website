@@ -83,4 +83,4 @@ eval_var_weight[msg] {
 
 default dummy_query = false
 
-dummy_query = true
+dummy_query = false
