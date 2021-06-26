@@ -84,5 +84,5 @@ eval_var_weight[msg] {
 }
 
 allow = true {
-    count(variable_failures) == 0
+    count(variable_failures[0]) == 0
 }
