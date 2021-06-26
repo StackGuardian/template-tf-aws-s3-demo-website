@@ -80,3 +80,7 @@ eval_var_weight[msg] {
     msg := {"missing_policy": result,
             "status": "warn"}
 }
+
+default dummy_query = false
+
+dummy_query = false
