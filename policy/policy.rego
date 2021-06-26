@@ -2,6 +2,8 @@ package ps.analysis
 
 import input as tf
 
+default allow = false
+
 variables_allowed[msg] {
     lookup := data.parameters[_].self
     policy := data.parameters[lookup].allowed
@@ -21,7 +23,7 @@ variables_denied[msg] {
 
 variable_failures[msg] {
     result := variables_denied - variables_allowed
-    msg := result
+    msg := result[0]
 }
 
 # proto[msg] {
@@ -81,6 +83,6 @@ eval_var_weight[msg] {
             "status": "warn"}
 }
 
-default dummy_query = false
-
-dummy_query = false
+allow = true {
+    count(variable_failures) == 0
+}
