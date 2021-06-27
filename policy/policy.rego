@@ -83,6 +83,6 @@ eval_var_weight[msg] {
             "status": "warn"}
 }
 
-# allow = true {
-#     count(variable_failures[0]) == 0
-# }
+allow = true {
+    count(variable_failures[0]) == 0
+}
