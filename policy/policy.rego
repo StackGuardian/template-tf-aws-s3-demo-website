@@ -5,8 +5,7 @@ import input as tf
 default allow = false
 
 allow = true {
-    violations := count(variable_failures[0])
-    violations == 0
+    count(variable_failures[_]) == 0
 }
 
 variables_allowed[msg] {
