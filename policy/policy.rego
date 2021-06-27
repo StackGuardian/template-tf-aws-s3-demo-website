@@ -4,6 +4,10 @@ import input as tf
 
 default allow = false
 
+allow = true {
+    count(variable_failures[0]) == 0
+}
+
 variables_allowed[msg] {
     lookup := data.parameters[_].self
     policy := data.parameters[lookup].allowed
@@ -81,8 +85,4 @@ eval_var_weight[msg] {
     result >= 0
     msg := {"missing_policy": result,
             "status": "warn"}
-}
-
-allow = true {
-    count(variable_failures[0]) == 0
 }
