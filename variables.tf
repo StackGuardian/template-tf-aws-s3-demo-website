@@ -36,7 +36,7 @@ variable "s3_bucket_restrict_public_buckets" {
 variable "s3_bucket_tags" {
   type = map(string)
   default = {
-    Owner = "TandLabs"
+    Owner = "stackguardian"
   }
 }
 
