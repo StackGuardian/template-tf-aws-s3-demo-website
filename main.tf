@@ -1,5 +1,5 @@
 locals {
-  bucket_name = "tandlabs-${random_pet.this.id}"
+  bucket_name = "stackguardian-${random_pet.this.id}"
 }
 
 resource "random_pet" "this" {
