@@ -7,7 +7,7 @@ resource "random_pet" "this" {
 }
 
 module "s3_bucket" {
-  source = "github.com/TandLabs/module-tf-aws-s3-bucket?ref=v2.0.0"
+  source = "github.com/StackGuardian/module-tf-aws-s3-bucket?ref=v2.0.0"
 
   bucket        = local.bucket_name
   acl           = var.s3_bucket_acl

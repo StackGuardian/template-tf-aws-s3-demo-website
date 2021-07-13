@@ -1,3 +1,0 @@
-[submodule "module-tf-aws-s3-bucket"]
-	path = module-tf-aws-s3-bucket
-	url = https://github.com/StackGuardian/module-tf-aws-s3-bucket.git
