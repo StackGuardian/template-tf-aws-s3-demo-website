@@ -17,7 +17,7 @@ body {
     background-color: #001f3f;
   }
   50% {
-    background-color: #ff6262;
+    background-color: #e0ecff;
     color: black;
   }
   100% {
@@ -87,16 +87,6 @@ section {
   width: 75%;
   max-width: 450px;
   height: 400px;
-  animation: rotateAni 4s ease infinite;
-}
-
-@keyframes rotateAni {
-  from {
-    transform: rotateY(0deg);
-  }
-  to {
-    transform: rotateY(360deg);
-  }
 }
 
 .banner-img > img {
