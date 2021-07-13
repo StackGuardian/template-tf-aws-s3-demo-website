@@ -1,6 +1,6 @@
 provider "aws" {
   skip_metadata_api_check = true
-  region = var.bucket_region
+  region                  = var.bucket_region
   # assume_role {
   #   role_arn = "arn:aws:iam::${account_id}:role/${assume_role}"
   # }
