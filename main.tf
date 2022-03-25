@@ -17,11 +17,6 @@ module "s3_bucket" {
 
   versioning = var.s3_bucket_versioning
 
-  website = {
-    index_document = "index.html"
-    error_document = "error.html"
-  }
-
   # S3 bucket-level Public Access Block configuration
   block_public_acls       = var.s3_bucket_block_public_acls
   block_public_policy     = var.s3_bucket_block_public_policy
