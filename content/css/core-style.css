@@ -448,7 +448,9 @@ img {
         background-color: #131212; }
     .main-content-wrapper .header-area .logo {
       margin-bottom: 100px;
-      display: block; }
+      display: block; 
+      font-size: 24px;
+    }
     .main-content-wrapper .header-area .amado-nav li a {
       font-size: 14px;
       text-transform: uppercase;
