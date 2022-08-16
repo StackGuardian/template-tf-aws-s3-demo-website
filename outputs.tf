@@ -1,9 +1,4 @@
-output "s3_bucket_region" {
-  description = "The AWS region this bucket resides in"
-  value       = module.s3_bucket.s3_bucket_region
-}
-
-output "this_s3_bucket_website_endpoint" {
-  description = "The sample website endpoint"
-  value       = module.s3_bucket.s3_bucket_website_endpoint
+output "sample_website_url" {
+  description = "The sample website url"
+  value       = format("%s%s", "http://", module.s3_bucket.s3_bucket_website_endpoint)
 }
