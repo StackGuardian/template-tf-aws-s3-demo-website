@@ -31,6 +31,6 @@ module "s3_bucket" {
 
 resource "null_resource" "remove_and_upload_to_s3" {
   provisioner "local-exec" {
-    command = "sed -i 's/helloWorld/${var.shop_name}/g' * && aws s3 sync ${path.module}/content s3://${module.s3_bucket.s3_bucket_id} --acl public-read --region eu-central-1"
+    command = "find ${path.module}/content -type f -exec sed -i 's/helloWorld/${var.shop_name}/g' {} + && aws s3 sync ${path.module}/content s3://${module.s3_bucket.s3_bucket_id} --acl public-read --region eu-central-1"
   }
 }
