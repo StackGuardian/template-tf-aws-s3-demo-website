@@ -1,3 +1,8 @@
+variable "shop_name" {
+  type    = string
+  default = "StackGuardian"
+}
+
 variable "bucket_region" {
   type    = string
   default = "eu-central-1"
