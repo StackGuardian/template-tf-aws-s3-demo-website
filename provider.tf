@@ -6,11 +6,11 @@ provider "aws" {
   # }
 }
 
-terraform {
-  required_version = ">= 0.12.6, <= 1.1.7"
+# terraform {
+#   required_version = ">= 0.12.6, <= 1.1.7"
 
-  required_providers {
-    aws    = ">= 3.0, < 4.0"
-    random = "~> 3"
-  }
-}
+#   required_providers {
+#     aws    = ">= 3.0, < 4.0"
+#     random = "~> 3"
+#   }
+# }
