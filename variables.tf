@@ -52,3 +52,9 @@ variable "s3_bucket_versioning" {
     mfa_delete = false
   }
 }
+
+variable role_to_be_assumed {
+  type        = string
+  default     = "arn:aws:iam::871606792318:role/sg-demo-admin-prod"
+  description = "role to be assumed"
+}
