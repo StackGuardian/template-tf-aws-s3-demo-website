@@ -1,54 +1,18 @@
-variable "shop_name" {
-  type    = string
-  default = "StackGuardian"
-}
-
 variable "bucket_region" {
-  type    = string
-  default = "eu-central-1"
+  type        = string
+  description = "AWS Region for creating Bucket."
+  default     = "eu-central-1"
 }
 
-variable "s3_bucket_acl" {
-  type    = string
-  default = "public-read"
-}
-
-variable "s3_bucket_force_destroy" {
-  type    = bool
-  default = true
-}
-
-variable "s3_bucket_block_public_acls" {
-  type    = bool
-  default = false
-}
-
-variable "s3_bucket_block_public_policy" {
-  type    = bool
-  default = false
-}
-
-variable "s3_bucket_ignore_public_acls" {
-  type    = bool
-  default = false
-}
-
-variable "s3_bucket_restrict_public_buckets" {
-  type    = bool
-  default = false
-}
-
-variable "s3_bucket_tags" {
+variable "mime_types" {
   type = map(string)
   default = {
-    Owner = "stackguardian"
-  }
-}
-
-variable "s3_bucket_versioning" {
-  type = map(string)
-  default = {
-    enabled    = true
-    mfa_delete = false
+    "banner.png"  = "image/png",
+    "favicon.ico" = "image/vnd.microsoft.icon",
+    "index.html"  = "text/html",
+    "logo.png"    = "image/png",
+    "logo.svg"    = "image/svg+xml",
+    "main.css"    = "text/css",
+    "main.js"     = "application/javascript",
   }
 }
