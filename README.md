@@ -8,15 +8,20 @@ This repository has been utilized in creating a template for the onboarding flow
 
 ## Variables
 
-- `bucket_region` (string): The AWS region where the S3 bucket will be created. Default: `"eu-central-1"`.
-- `mime_types` (map): A mapping of file names to their corresponding MIME types for content uploaded to the bucket.
+| Name          | Description                                           | Type        | Default                                                                                                                                                                                                                                                                                                                             | Required |
+|---------------|-------------------------------------------------------|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
+| bucket_region | The AWS region where the S3 bucket will be created.   | String      | us-east-1                                                                                                                                                                                                                                                                                                                           | Yes      |
+| mime_types    | Mime types of the contents to be placed in S3 bucket. | map(string) | {      " banner.png "   =  " image/png " ,      " favicon.ico "  =  " image/vnd.microsoft.icon " ,      " index.html "   =  " text/html " ,      " logo.png "     =  " image/png " ,      " logo.svg "     =  " image/svg+xml " ,      " main.css "     =  " text/css " ,      " main.js "      =  " application/javascript " ,   } | Yes      |
+
+
 
 ## Outputs
 
-- `id`: Name of the created S3 bucket.
-- `website_domain`: Domain of the website endpoint.
-- `website_endpoint`: URL of the hosted website.
-
+| **Name** 	| **Description** 	|
+|:---:	|:---:	|
+| id 	| Name of the created S3 bucket. 	|
+| website_domain 	| Domain of the website endpoint. 	|
+| website_endpoint 	| The URL of the hosted website. 	|
 
 ## License
 
