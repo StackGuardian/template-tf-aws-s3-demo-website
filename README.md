@@ -2,38 +2,9 @@
 
 # aws-s3-staticwebsite
 
-## Terraform AWS S3 Bucket
+This Terraform configuration creates an AWS S3 bucket with website hosting enabled, along with necessary configurations and policies. </br>
+This repository has been utilized in creating a template for the onboarding flow used in StackGuardian. 
 
-This Terraform configuration creates an AWS S3 bucket with website hosting enabled, along with necessary configurations and policies.
-
-## Table of Contents
-
-- [Prerequisites](#prerequisites)
-- [Usage](#usage)
-- [Variables](#variables)
-- [Outputs](#outputs)
-- [Release Notes](#release-notes)
-- [License](#license)
-
-## Prerequisites
-
-- [Terraform](https://learn.hashicorp.com/tutorials/terraform/install-cli) installed on your system.
-- AWS credentials configured with necessary permissions.
-
-## Usage
-
-1. Clone this repository to your local machine.
-2. Initialize the Terraform configuration:
-   ```bash
-   terraform init
-   ```
-3. Adjust variables in `variables.tf` if needed.
-4. Apply the Terraform configuration:
-   ```bash
-   terraform apply
-   ```
-5. Follow the prompts and review the changes. Confirm by typing `yes`.
-6. Once applied, the S3 bucket will be created and configured.
 
 ## Variables
 
@@ -46,11 +17,6 @@ This Terraform configuration creates an AWS S3 bucket with website hosting enabl
 - `website_domain`: Domain of the website endpoint.
 - `website_endpoint`: URL of the hosted website.
 
-## Release Notes
-
-### Version 1.0.0
-
-- Initial release.
 
 ## License
 
