@@ -74,17 +74,7 @@ resource "aws_s3_bucket_policy" "s3_bucket" {
         Principal = "*"
         Action = [
           "s3:*",
-        ]
-        Effect = "Allow"
-        Resource = [
-          "arn:aws:s3:::${aws_s3_bucket.s3_bucket.id}/*"
-        ]
-      },
-      {
-        Sid       = "PublicReadGetObject"
-        Principal = "*"
-        Action = [
-          "s3:GetObject",
+          "s3:GetObject"
         ]
         Effect = "Allow"
         Resource = [
@@ -100,14 +90,14 @@ resource "aws_s3_bucket_policy" "s3_bucket" {
 resource "aws_s3_object" "copy_content" {
   for_each = fileset(path.module, "content/**")
   bucket   = aws_s3_bucket.s3_bucket.bucket
-  key      = basename(each.value)  # Set key to the base name of the file
-  source   = "${each.value}" # Set source to the local path of the file
+  key      = basename(each.value) # Set key to the base name of the file
+  source   = each.value           # Set source to the local path of the file
   # Determines the content type (MIME type) of the uploaded file.
-# Uses var.mime_types to look up the content type based on the file's base name.
-# If no match is found, defaults to "application/octet-stream".
+  # Uses var.mime_types to look up the content type based on the file's base name.
+  # If no match is found, defaults to "application/octet-stream".
   content_type = coalesce(
     lookup(var.mime_types, basename(each.value), null),
     "application/octet-stream"
   )
-  depends_on = [ aws_s3_bucket.s3_bucket ]
+  depends_on = [aws_s3_bucket.s3_bucket]
 }
