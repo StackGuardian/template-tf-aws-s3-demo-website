@@ -7,6 +7,7 @@ locals {
 }
 
 resource "aws_s3_bucket" "s3_bucket" {
+  count = 1
   bucket        = local.bucket_name
   force_destroy = true
   tags = {
@@ -53,6 +54,7 @@ resource "aws_s3_bucket_ownership_controls" "s3_bucket_acl_ownership" {
 }
 
 resource "aws_iam_user" "s3_bucket" {
+  count = 2
   name = local.bucket_name
 }
 
