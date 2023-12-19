@@ -1,6 +1,6 @@
 output "id" {
   description = "Name of the Bucket"
-  value       = aws_s3_bucket.s3_bucket.id
+  value       = aws_s3_bucket.s3_bucket[0].id
 }
 output "website_domain" {
   description = "Domain of the website endpoint."

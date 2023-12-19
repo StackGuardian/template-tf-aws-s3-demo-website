@@ -11,14 +11,14 @@ resource "aws_s3_bucket" "s3_bucket" {
   bucket        = local.bucket_name
   force_destroy = true
   tags = {
-    "Name"        = "aws_s3_bucket.s3_bucket.id"
+    "Name"        = "aws_s3_bucket.s3_bucket[0].id"
     "Description" = "Demo Bucket for hosting the static website"
     "CreatedBy"   = "StackGuardian"
   }
 }
 
 resource "aws_s3_bucket_website_configuration" "s3_bucket" {
-  bucket = aws_s3_bucket.s3_bucket.bucket[0]
+  bucket = aws_s3_bucket.s3_bucket[0].bucket
   index_document {
     suffix = "index.html"
   }
