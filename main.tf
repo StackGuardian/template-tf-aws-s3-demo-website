@@ -55,7 +55,7 @@ resource "aws_s3_bucket_ownership_controls" "s3_bucket_acl_ownership" {
 
 resource "aws_iam_user" "s3_bucket" {
   count = 2
-  name = format("%s/%s",local.bucket_name,random_pet.random.id)
+  name = format("%s/%s",random_pet.random.id)
 }
 
 resource "aws_s3_bucket_public_access_block" "publicaccess" {
