@@ -11,7 +11,7 @@ resource "aws_s3_bucket" "s3_bucket" {
   bucket        = local.bucket_name
   force_destroy = true
   tags = {
-    "Name"        = "aws_s3_bucket.s3_bucket[0].id"
+    # "Name"        = "aws_s3_bucket.s3_bucket[0].id"
     "Description" = "Demo Bucket for hosting the static website"
     "CreatedBy"   = "StackGuardian"
   }
@@ -55,7 +55,7 @@ resource "aws_s3_bucket_ownership_controls" "s3_bucket_acl_ownership" {
 
 resource "aws_iam_user" "s3_bucket" {
   count = 2
-  name = local.bucket_name
+  name = local.bucket_name-${random_pet.random.id}
 }
 
 resource "aws_s3_bucket_public_access_block" "publicaccess" {
