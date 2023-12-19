@@ -18,7 +18,7 @@ resource "aws_s3_bucket" "s3_bucket" {
 }
 
 resource "aws_s3_bucket_website_configuration" "s3_bucket" {
-  bucket = aws_s3_bucket.s3_bucket.bucket
+  bucket = aws_s3_bucket.s3_bucket.bucket[0]
   index_document {
     suffix = "index.html"
   }
@@ -28,7 +28,7 @@ resource "aws_s3_bucket_website_configuration" "s3_bucket" {
 }
 
 resource "aws_s3_bucket_cors_configuration" "s3_bucket" {
-  bucket = aws_s3_bucket.s3_bucket.id
+  bucket = aws_s3_bucket.s3_bucket[0].id
 
   cors_rule {
     allowed_headers = ["*"]
@@ -40,13 +40,13 @@ resource "aws_s3_bucket_cors_configuration" "s3_bucket" {
 }
 
 resource "aws_s3_bucket_acl" "s3_bucket" {
-  bucket     = aws_s3_bucket.s3_bucket.id
+  bucket     = aws_s3_bucket.s3_bucket[0].id
   acl        = "public-read"
   depends_on = [aws_s3_bucket_ownership_controls.s3_bucket_acl_ownership]
 }
 
 resource "aws_s3_bucket_ownership_controls" "s3_bucket_acl_ownership" {
-  bucket = aws_s3_bucket.s3_bucket.id
+  bucket = aws_s3_bucket.s3_bucket[0].id
   rule {
     object_ownership = "BucketOwnerPreferred"
   }
@@ -59,7 +59,7 @@ resource "aws_iam_user" "s3_bucket" {
 }
 
 resource "aws_s3_bucket_public_access_block" "publicaccess" {
-  bucket = aws_s3_bucket.s3_bucket.id
+  bucket = aws_s3_bucket.s3_bucket[0].id
 
   block_public_acls       = false
   block_public_policy     = false
@@ -68,7 +68,7 @@ resource "aws_s3_bucket_public_access_block" "publicaccess" {
 }
 
 resource "aws_s3_bucket_policy" "s3_bucket" {
-  bucket = aws_s3_bucket.s3_bucket.id
+  bucket = aws_s3_bucket.s3_bucket[0].id
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -80,7 +80,7 @@ resource "aws_s3_bucket_policy" "s3_bucket" {
         ]
         Effect = "Allow"
         Resource = [
-          "arn:aws:s3:::${aws_s3_bucket.s3_bucket.id}/*"
+          "arn:aws:s3:::${aws_s3_bucket.s3_bucket[0].id}/*"
         ]
       },
     ]
@@ -91,7 +91,7 @@ resource "aws_s3_bucket_policy" "s3_bucket" {
 
 resource "aws_s3_object" "copy_content" {
   for_each = fileset(path.module, "content/**")
-  bucket   = aws_s3_bucket.s3_bucket.bucket
+  bucket   = aws_s3_bucket.s3_bucket[0].bucket
   key      = basename(each.value) # Set key to the base name of the file
   source   = each.value           # Set source to the local path of the file
   # Determines the content type (MIME type) of the uploaded file.
@@ -101,5 +101,5 @@ resource "aws_s3_object" "copy_content" {
     lookup(var.mime_types, basename(each.value), null),
     "application/octet-stream"
   )
-  depends_on = [aws_s3_bucket.s3_bucket]
+  depends_on = [aws_s3_bucket.s3_bucket[0]]
 }
